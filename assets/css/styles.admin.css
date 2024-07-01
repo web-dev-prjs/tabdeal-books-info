@@ -1,0 +1,45 @@
+/*
+ |----------------------
+ | @since 1.0.0
+ |----------------------
+ */
+
+body {
+    background: #f0f0f1;
+    color: #3c434a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+    min-width: 600px;
+}
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+/* ========== Responsive Mode START ========== */
+@media only screen and (min-width: 1365px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 1024px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 925px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 834px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 768px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 576px) {
+    /* Styles goes here... */
+}

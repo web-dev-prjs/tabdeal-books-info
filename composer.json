@@ -1,0 +1,19 @@
+{
+    "name": "web-dev-prjs/tabdeal-books-info",
+    "description": "A sample plugin of books information. (Tabdeal interview)",
+    "type": "project",
+    "license": "GPL2",
+    "autoload": {
+        "psr-4": {
+            "TBI\\": "./includes"
+        }
+    },
+    "authors": [
+        {
+            "name": "omid hosseini",
+            "email": "web.dev.prjs@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
