@@ -9,6 +9,10 @@
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
+require_once plugin_dir_path( __FILE__ ) . 'includes/Core/Factories/CustomTable.php';
+
+use TBI\Core\Factories\CustomTable;
+
 /**
  * Uninstall class.
  *
@@ -37,6 +41,14 @@ final class uninstall {
 		 |-----------------------------------------------------------
 		 */
 		wp_cache_flush();
+		
+		/*
+		 |--------------------------------
+		 | Removes books-info table.
+		 | @since 1.1.0
+		 |--------------------------------
+		 */
+		CustomTable::remove( 'books_info' );
 	}
 }
 
