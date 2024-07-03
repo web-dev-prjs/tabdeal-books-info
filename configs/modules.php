@@ -1,22 +1,30 @@
 <?php
 
-use TBI\Core\ActionLink;
-use TBI\Core\Dashboard;
-use TBI\Core\Enqueue;
-
+/**
+ * Returns an array of modules and services.
+ *
+ * @since 1.1.0
+ */
 return array(
 	/*
 	 |-------------------------------------------------------------------------
-	 | Base configs, For setting up this plugin.
+	 | Base configs, to setting up this plugin.
 	 |-------------------------------------------------------------------------
 	 */
-	Enqueue::class,
-	ActionLink::class,
+	\TBI\Core\Enqueue::class,
+	\TBI\Core\ActionLink::class,
 	
 	/*
 	 |-------------------------------------------------------------------------
-	 | Admin configs, For implement admin dashboard of plugin.
+	 | Admin configs, to implement admin dashboard of plugin.
 	 |-------------------------------------------------------------------------
 	 */
-	Dashboard::class,
+	\TBI\Core\Dashboard::class,
+	
+	/*
+	 |-------------------------------------------------------------------------
+	 | Services configs, to implement all services of plugin.
+	 |-------------------------------------------------------------------------
+	 */
+	\TBI\Services\BookCPT::class
 );
