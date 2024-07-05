@@ -23,8 +23,63 @@ final class Enqueue {
 	 */
 	public function build(): void {
 		
-		// Hooks all backend (admin) styles and scripts.
+		/**
+		 * Hooks all frontend (client) styles and scripts.
+		 *
+		 * @since 1.3.0
+		 */
+		$this->wp_enqueue();
+		
+		/**
+		 * Hooks all backend (admin) styles and scripts.
+		 *
+		 * @since 1.0.0
+		 */
 		$this->admin_enqueue();
+	}
+	
+	/**
+	 * Enqueue all our styles and scripts in client side.
+	 *
+	 * @return void
+	 * @since 1.3.0
+	 */
+	private function wp_enqueue(): void {
+		
+		add_action(
+			'wp_enqueue_scripts',
+			function () {
+				
+				if ( ! is_singular( 'book' ) ) {
+					return;
+				}
+				
+				/*
+				 |---------------------------------------------------
+				 | Registers and enqueues all plugin client styles.
+				 |---------------------------------------------------
+				 */
+				wp_enqueue_style(
+					TBI_PREFIX . '-wp-styles',
+					TBI_ASSETS . "css/styles.wp.css",
+					array(),
+					TBI_VERSION
+				);
+				
+				/*
+				 |---------------------------------------------------
+				 | Registers and enqueues all plugin client scripts.
+				 |---------------------------------------------------
+				 */
+				wp_enqueue_script(
+					TBI_PREFIX . '-wp-scripts',
+					TBI_ASSETS . "js/scripts.wp.js",
+					array( 'jquery' ),
+					TBI_VERSION,
+					true,
+				);
+			}
+		);
 	}
 	
 	/**
@@ -37,17 +92,20 @@ final class Enqueue {
 		
 		/**
 		 * @param string $hook_suffix The current admin page.
+		 *
+		 * @since 1.0.0
 		 */
 		add_action(
 			'admin_enqueue_scripts',
 			function ( string $hook_suffix ) {
+				
 				if ( 'toplevel_page_tbi_dashboard' !== $hook_suffix ) {
 					return;
 				}
 				
 				/*
 				 |---------------------------------------------------
-				 | Registers and enqueues all plugin styles.
+				 | Registers and enqueues all plugin admin styles.
 				 |---------------------------------------------------
 				 */
 				wp_register_style(
@@ -66,7 +124,7 @@ final class Enqueue {
 				
 				/*
 				 |---------------------------------------------------
-				 | Registers and enqueues all plugin scripts.
+				 | Registers and enqueues all plugin admin scripts.
 				 |---------------------------------------------------
 				 */
 				wp_register_script(
