@@ -16,7 +16,7 @@ namespace TBI\Utilities;
 final class Component {
 	
 	/**
-	 * Creates a table template as HTML format.
+	 * Creates a table template in HTML format.
 	 *
 	 * @param null|array $args An array includes fields data.
 	 *
@@ -101,5 +101,46 @@ final class Component {
 		$markup .= '</div>';
 		
 		return $markup;
+	}
+	
+	/**
+	 * Creates a book-vote template in HTML format.
+	 *
+	 * @param int $post_id The post identification.
+	 *
+	 * @return false|string A template in the HTML format.
+	 * @since 1.4.0
+	 */
+	public static function render_book_vote( int $post_id ): false|string {
+		
+		$_likes_count    = get_post_meta( $post_id, '_likes_count', true );
+		$_dislikes_count = get_post_meta( $post_id, '_dislikes_count', true );
+		
+		ob_start();
+		
+		$markup = '<hr />';
+		$markup .= '<div class="likes-dislikes" data-id="' . $post_id . '">';
+		$markup .= '<p class="likes-dislikes__title">';
+		$markup .= esc_html__( 'Like this book?', 'tabdeal-books-info' );
+		$markup .= '</p>';
+		$markup .= '<ul class="likes-dislikes__box">';
+		$markup .= '<li class="likes-dislikes__item">';
+		$markup .= '<a id="like_book" href="#"></a>';
+		$markup .= '<span id="likes_count">';
+		$markup .= $_likes_count ? : 0;
+		$markup .= '</span>';
+		$markup .= '</li>';
+		$markup .= '<li class="likes-dislikes__item">';
+		$markup .= '<a id="dislike_book" href="#"></a>';
+		$markup .= '<span id="dislikes_count">';
+		$markup .= $_dislikes_count ? : 0;
+		$markup .= '</span>';
+		$markup .= '</li>';
+		$markup .= '</ul>';
+		$markup .= '</div>';
+		
+		echo $markup;
+		
+		return ob_get_clean();
 	}
 }
