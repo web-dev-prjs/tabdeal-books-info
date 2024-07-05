@@ -1,0 +1,85 @@
+/*
+ |----------------------
+ | @since 1.0.0
+ |----------------------
+ */
+
+body {
+    font-family : -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+*,
+::after,
+::before {
+    box-sizing : border-box;
+}
+
+/* ========== Responsive Mode START ========== */
+@media only screen and (min-width : 1365px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width : 1024px) {
+
+    /* Start - @since 1.4.0 */
+    div.likes-dislikes,
+    ul.likes-dislikes__box,
+    li.likes-dislikes__item {
+        display         : flex;
+        align-items     : center;
+        justify-content : flex-start;
+    }
+
+    div.likes-dislikes {
+        gap : 20px;
+    }
+
+    ul.likes-dislikes__box {
+        list-style : none;
+        padding    : 0;
+        gap        : 15px;
+    }
+
+    p.likes-dislikes__title {
+        font-size   : large;
+        font-weight : 500;
+    }
+
+    li.likes-dislikes__item {
+        gap : 5px;
+    }
+
+    a#like_book {
+        width               : 24px;
+        height              : 24px;
+        background-size     : contain;
+        background-position : center;
+        background-image    : url("../images/thumbsup.svg");
+    }
+
+    a#dislike_book {
+        width               : 24px;
+        height              : 24px;
+        background-size     : contain;
+        background-position : center;
+        background-image    : url("../images/thumbsdown.svg");
+    }
+
+    /* End - @since 1.4.0 */
+}
+
+@media only screen and (min-width : 925px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width : 834px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width : 768px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width : 576px) {
+    /* Styles goes here... */
+}
