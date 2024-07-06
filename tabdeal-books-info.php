@@ -9,7 +9,7 @@
  * Plugin Name: Tabdeal Books Info
  * Plugin URI: https://github.com/web-dev-prjs/tabdeal-books-info
  * Description: A sample plugin of books information. (Tabdeal interview)
- * Version: 1.4.0
+ * Version: 1.4.1
  * Requires at least: 6.5
  * Requires PHP: 8.2
  * Author: Omid Hosseini
