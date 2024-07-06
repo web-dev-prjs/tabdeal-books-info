@@ -58,9 +58,9 @@ jQuery(document).ready(function ($) {
          */
         constructor() {
             
-            this.#likeBook = $("#like_book");
-            this.#dislikeBook = $("#dislike_book");
-            this.#likesDislikes = $(".likes-dislikes");
+            this.#likeBook = $("#tbi__like_book");
+            this.#dislikeBook = $("#tbi__dislike_book");
+            this.#likesDislikes = $(".tbi__likes-dislikes");
             
             this.#addEvent();
         }
@@ -77,18 +77,16 @@ jQuery(document).ready(function ($) {
                 
                 e.preventDefault();
                 
-                this.#likesCount = $("#likes_count");
+                this.#likesCount = $("#tbi__likes_count");
                 
                 this.#saveBookVote(e.target.id, this.#likesCount.text());
-                
-                console.log(e.target.id, voteCount);
             });
             
             this.#dislikeBook.on("click", (e) => {
                 
                 e.preventDefault();
                 
-                this.#dislikesCount = $("#dislikes_count");
+                this.#dislikesCount = $("#tbi__dislikes_count");
                 
                 this.#saveBookVote(e.target.id, this.#dislikesCount.text());
             });
@@ -128,7 +126,7 @@ jQuery(document).ready(function ($) {
             
             request.then((response, textStatus, jqXHR) => {
                 
-                ("like_book" === voteMode)
+                ("tbi__like_book" === voteMode)
                     ? this.#likesCount.text(response.data.voteValue)
                     : this.#dislikesCount.text(response.data.voteValue);
                 
