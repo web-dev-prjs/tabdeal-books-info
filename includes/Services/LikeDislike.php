@@ -29,12 +29,33 @@ final class LikeDislike {
 	}
 	
 	/**
-	 * Registers a like/unlike markup HTML into `the-content` hook filter.
+	 * Registers a book-vote and a book-like in HTML format.
 	 *
 	 * @return void
 	 * @since 1.4.0
 	 */
 	private function register(): void {
+		
+		/**
+		 * @since 1.4.1
+		 */
+		add_filter(
+			'render_block_core/post-author-name',
+			
+			/**
+			 * Adds the book-likes HTML format in the below title via `render_block_{block-name}` hook filter.
+			 *
+			 * @param string $block_content The post author-name block.
+			 *
+			 * @return string The post author-name block along with likes count of book.
+			 * @see   wp-includes/class-wp-block.php in line number 525.
+			 * @since 1.4.1
+			 */
+			function ( string $block_content ): string {
+				
+				return $this->book_like_html( $block_content );
+			}
+		);
 		
 		/**
 		 * @since 1.4.0
@@ -43,14 +64,14 @@ final class LikeDislike {
 			'the_content',
 			
 			/**
-			 * Adds the markup to the `the-content` hook filter.
+			 * Adds the book-vote HTML format to the `the-content` hook filter.
 			 *
 			 * @param string $content The post content.
 			 *
 			 * @return string The Content.
 			 * @since 1.4.0
 			 */
-			function ( string $content ) {
+			function ( string $content ): string {
 				
 				return $this->book_vote_html( $content );
 			}
@@ -113,22 +134,29 @@ final class LikeDislike {
 	}
 	
 	/**
-	 * Adds the like-unlike markup as HTML format to the `book` post-types.
+	 * Adds the book-like markup in HTML format to the `book` post-types.
 	 *
-	 * @param string $content The post title.
+	 * @param string $block_content The post author-name block.
 	 *
-	 * @return string
+	 * @return string The post author-name block along with likes count of book.
+	 * @since 1.4.1
+	 */
+	private function book_like_html( string $block_content ): string {
+		
+		return $block_content . Component::render_book_like( get_the_ID() );
+	}
+	
+	/**
+	 * Adds the book-vote markup in HTML format to the `book` post-types.
+	 *
+	 * @param string $content The post content.
+	 *
+	 * @return string The book-vote HTML format.
 	 * @since 1.4.0
 	 */
 	private function book_vote_html( string $content ): string {
 		
-		if ( ! is_singular( 'book' ) ) {
-			return $content;
-		}
-		
-		$output = Component::render_book_vote( get_the_ID() );
-		
-		return $content . $output;
+		return $content . Component::render_book_vote( get_the_ID() );
 	}
 	
 	/**
@@ -151,18 +179,19 @@ final class LikeDislike {
 		
 		$post_id    = $_POST['postID'];
 		$vote_count = (int) $_POST["voteCount"];
-		$vote_mode  = str_replace( '_book', '', $_POST["voteMode"] );
+		
+		preg_match( '/like|dislike/', $_POST["voteMode"], $vote_mode );
 		
 		$user_id       = get_current_user_id();
 		$user_vote_key = "_post-{$post_id}_voted";
 		
-		$vote_key = ( 'like' === $vote_mode ) ? '_likes_count' : '_dislikes_count';
+		$vote_key = ( 'like' === $vote_mode[0] ) ? '_likes_count' : '_dislikes_count';
 		
 		$prev_vote_count  = get_post_meta( $post_id, $vote_key, true );
 		$user_voted_value = get_user_meta( $user_id, $user_vote_key, true );
 		
 		if ( $user_voted_value ) {
-			if ( $vote_mode !== $user_voted_value ) {
+			if ( $vote_mode[0] !== $user_voted_value ) {
 				wp_send_json_error(
 					'You have already voted this book.',
 					'already_voted',
@@ -178,7 +207,11 @@ final class LikeDislike {
 			$vote_value = empty( $prev_vote_count )
 				? ( $vote_count + 1 ) : ( $prev_vote_count + 1 );
 			
-			$vote_status = add_user_meta( $user_id, $user_vote_key, $vote_mode );
+			$vote_status = add_user_meta(
+				$user_id,
+				$user_vote_key,
+				$vote_mode[0]
+			);
 		}
 		
 		update_post_meta( $post_id, $vote_key, $vote_value );
