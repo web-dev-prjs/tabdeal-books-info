@@ -108,10 +108,14 @@ final class Component {
 	 *
 	 * @param int $post_id The post identification.
 	 *
-	 * @return false|string A template in the HTML format.
+	 * @return string A template in the HTML format.
 	 * @since 1.4.0
 	 */
-	public static function render_book_vote( int $post_id ): false|string {
+	public static function render_book_vote( int $post_id ): string {
+		
+		if ( ! is_singular( 'book' ) ) {
+			return '';
+		}
 		
 		$_likes_count    = get_post_meta( $post_id, '_likes_count', true );
 		$_dislikes_count = get_post_meta( $post_id, '_dislikes_count', true );
@@ -119,20 +123,20 @@ final class Component {
 		ob_start();
 		
 		$markup = '<hr />';
-		$markup .= '<div class="likes-dislikes" data-id="' . $post_id . '">';
-		$markup .= '<p class="likes-dislikes__title">';
+		$markup .= '<div class="tbi__likes-dislikes" data-id="' . $post_id . '">';
+		$markup .= '<p class="tbi__likes-dislikes__title">';
 		$markup .= esc_html__( 'Like this book?', 'tabdeal-books-info' );
 		$markup .= '</p>';
-		$markup .= '<ul class="likes-dislikes__box">';
-		$markup .= '<li class="likes-dislikes__item">';
-		$markup .= '<a id="like_book" href="#"></a>';
-		$markup .= '<span id="likes_count">';
+		$markup .= '<ul class="tbi__likes-dislikes__box">';
+		$markup .= '<li class="tbi__likes-dislikes__item">';
+		$markup .= '<a id="tbi__like_book" href="#"></a>';
+		$markup .= '<span id="tbi__likes_count">';
 		$markup .= $_likes_count ? : 0;
 		$markup .= '</span>';
 		$markup .= '</li>';
-		$markup .= '<li class="likes-dislikes__item">';
-		$markup .= '<a id="dislike_book" href="#"></a>';
-		$markup .= '<span id="dislikes_count">';
+		$markup .= '<li class="tbi__likes-dislikes__item">';
+		$markup .= '<a id="tbi__dislike_book" href="#"></a>';
+		$markup .= '<span id="tbi__dislikes_count">';
 		$markup .= $_dislikes_count ? : 0;
 		$markup .= '</span>';
 		$markup .= '</li>';
@@ -142,5 +146,36 @@ final class Component {
 		echo $markup;
 		
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Creates a book-like template in HTML format.
+	 *
+	 * @param int $post_id The post identification.
+	 *
+	 * @return string A template in the HTML format.
+	 * @since 1.4.1
+	 */
+	public static function render_book_like( int $post_id ): string {
+		
+		$post_likes = '';
+		
+		if ( ! is_singular( 'book' ) ) {
+			return $post_likes;
+		}
+		
+		$likes_count = get_post_meta( $post_id, '_likes_count', true );
+		
+		$post_likes .= '<div class="tbi__book-likes">&nbsp;--&nbsp;';
+		$post_likes .= '<div class="tbi__book-likes__box">';
+		$post_likes .= '<span class="tbi__book-likes__title">';
+		$post_likes .= __( 'Likes:', 'tabdeal-books-info' );
+		$post_likes .= '</span>';
+		$post_likes .= '<span class="tbi__book_likes__count">';
+		$post_likes .= $likes_count ? : 0;
+		$post_likes .= '</span>';
+		$post_likes .= '</div></div>';
+		
+		return $post_likes;
 	}
 }
