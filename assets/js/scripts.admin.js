@@ -79,14 +79,23 @@ jQuery(document).ready(function ($) {
                 `http://openlibrary.org/api/books?bibkeys=ISBN:${isbnCode}&jscmd=data&format=json`
             ).then(data => {
                 
-                const details = Object.values(data)[0];
-                
-                this.#modalBody.empty().html(
-                    this.#responseTemplate(
-                        details.title,
-                        details.authors[0].name
-                    )
-                );
+                if ($.isEmptyObject(data)) {
+                    this.#modalBody.empty().html(
+                        $("<p>").text(`The ISBN ${isbnCode} not found. Please check it.`)
+                            .prepend([
+                                $("<span>", {class: "text-danger fw-semibold me-2"}).text("Notice:")
+                            ])
+                    );
+                } else {
+                    const details = Object.values(data)[0];
+                    
+                    this.#modalBody.empty().html(
+                        this.#responseTemplate(
+                            details.title,
+                            details.authors[0].name
+                        )
+                    );
+                }
             }).catch(error => {
                 
                 console.error("Error: ", error);
