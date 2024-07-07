@@ -16,9 +16,26 @@ $requirements = array(
 
 foreach ( $requirements as $requirement ) {
 	// Insert all require files.
-	if ( file_exists( TBI_PATH . "$requirement.php" ) ) {
-		require_once TBI_PATH . "$requirement.php";
+	if ( ! file_exists( TBI_PATH . "$requirement.php" ) ) {
+		/**
+		 * @since 1.4.2
+		 */
+		if ( 'vendor/autoload' === $requirement ) {
+			add_action( 'all_admin_notices', function () {
+				
+				$message = '<div class="notice notice-error">';
+				$message .= '<p>Dependencies for Tabdeal-Books-Info need to be installed.<br />';
+				$message .= ' Run <code>composer install --no-dev</code>';
+				$message .= ' from the <code>%s</code> directory.</p></div>';
+				
+				printf( $message, esc_html( __DIR__ ) );
+			} );
+			
+			return;
+		}
 	}
+	
+	require_once TBI_PATH . "$requirement.php";
 }
 
 // Activate the plugin.
