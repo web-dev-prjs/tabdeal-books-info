@@ -60,7 +60,10 @@ final class Component {
 				$markup .= '<tr>';
 				$markup .= '<th scope="row">' . $counter . '</th>';
 				$markup .= '<td>' . $book->ISBN . '</td>';
-				$markup .= '<td>' . $book->post_id . '</td>';
+				$markup .= '<td>';
+				$markup .= '<a href="post.php?post=';
+				$markup .= $book->post_id . '&action=edit" target="_blank">';
+				$markup .= $book->post_id . '</td>';
 				$markup .= '<td>';
 				
 				$markup .= '<button type="button" class="btn btn-outline-info more-detail-btn"';
