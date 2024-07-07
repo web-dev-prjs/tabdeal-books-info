@@ -41,16 +41,17 @@ final class CustomTable {
 	/**
 	 * Retrieves value of a specify column based-on sql-query from database.
 	 *
-	 * @param string $sql A sql-query.
+	 * @param string       $sql  A sql-query.
+	 * @param string|array $args A variable or an array of variables.
 	 *
 	 * @return null|string
 	 * @since 1.2.0
 	 */
-	public static function get_var( string $sql ): null|string {
+	public static function get_var( string $sql, string|array $args ): null|string {
 		
 		global $wpdb;
 		
-		$query = $wpdb->prepare( "$sql;" );
+		$query = $wpdb->prepare( "$sql;", $args );
 		
 		return $wpdb->get_var( $query );
 	}
