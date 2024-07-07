@@ -227,7 +227,7 @@ class CustomMetaBox {
 			' FROM ' .
 			CustomTable::get_table_prefix() .
 			$this->meta_box_store_table .
-			' WHERE post_id=' .
+			' WHERE post_id=%d',
 			$post_id
 		);
 	}
